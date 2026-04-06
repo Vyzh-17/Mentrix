@@ -13,13 +13,15 @@ const CreateProject = ({ currentUser, projects, setProjects }) => {
     }
   };
 
-  const removeTeammate = (email) => {
-    setTeamList(teamList.filter(t => t !== email));
+  const removeTeammate = (emailToRemove) => {
+    const filteredList = teamList.filter(email => email !== emailToRemove);
+    setTeamList(filteredList);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    
     const newProject = {
       id: projects.length + 1,
       title: formData.get('title'),
@@ -31,10 +33,11 @@ const CreateProject = ({ currentUser, projects, setProjects }) => {
       students: [currentUser.email, ...teamList], 
       teamLeader: currentUser.email,
       gitRepo: formData.get('gitRepo'),
-      status: 'Pending', 
+      status: 'Pending',
       milestone: 'Ideation & Planning',
       feedback: ''
     };
+    
     setProjects([...projects, newProject]);
     alert("Project submitted successfully! Check your dashboard while waiting for Mentor approval.");
     navigate(`/student`);
@@ -50,14 +53,17 @@ const CreateProject = ({ currentUser, projects, setProjects }) => {
       <div className="card" style={{ maxWidth: '600px' }}>
         <div className="card-title">Project Details Submission</div>
         <form onSubmit={handleSubmit}>
+          
           <div className="form-group">
             <label>Project Title</label>
             <input type="text" name="title" className="form-control" required />
           </div>
+          
           <div className="form-group">
             <label>Description</label>
             <textarea name="description" className="form-control" rows="3" required></textarea>
           </div>
+          
           <div className="form-group">
             <label>Project Git Repository (URL)</label>
             <input type="url" name="gitRepo" className="form-control" placeholder="e.g. https://github.com/..." required />
@@ -75,11 +81,13 @@ const CreateProject = ({ currentUser, projects, setProjects }) => {
               />
               <button type="button" className="btn btn-outline" onClick={handleAddTeammate}>Add</button>
             </div>
+            
             {teamList.length > 0 && (
               <div className="flex" style={{ gap: '0.5rem', flexWrap: 'wrap' }}>
                 {teamList.map((tm, i) => (
                   <span key={i} className="badge badge-neutral flex items-center gap-2">
-                     {tm} <span style={{cursor: 'pointer', color: 'red'}} onClick={() => removeTeammate(tm)}>x</span>
+                     {tm} 
+                     <span style={{cursor: 'pointer', color: 'red'}} onClick={() => removeTeammate(tm)}>x</span>
                   </span>
                 ))}
               </div>
@@ -87,12 +95,13 @@ const CreateProject = ({ currentUser, projects, setProjects }) => {
           </div>
 
           <div className="form-group mt-4">
-            <label>Select Mentor Email</label>
+            <label>Select Mentor</label>
             <select name="mentor" className="form-control" required>
               <option value="amit.gupta@university.edu">Dr. Amit Gupta (amit.gupta@university.edu)</option>
               <option value="vikram.singh@university.edu">Prof. Vikram Singh (vikram.singh@university.edu)</option>
             </select>
           </div>
+          
           <button type="submit" className="btn btn-primary mt-4 w-full">Initialize Project</button>
         </form>
       </div>

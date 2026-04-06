@@ -11,21 +11,32 @@ const ProjectDetail = ({
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const activeProject = projects.find(p => p.id === parseInt(id));
+  
+  const activeProject = projects.find(project => project.id === parseInt(id));
 
   if (!activeProject) {
     return <div>Project not found.</div>;
   }
 
-  const projectTasks = tasks.filter(t => t.projectId === activeProject.id);
-  const progress = getProjectProgress(activeProject.id);
-  const mySubmissions = submissions.filter(s => s.projectId === activeProject.id);
+  const projectTasks = tasks.filter(task => task.projectId === activeProject.id);
+  const mySubmissions = submissions.filter(sub => sub.projectId === activeProject.id);
+  const progressPercent = getProjectProgress(activeProject.id);
 
-  const getTabClass = (path) => {
-    // Determine active class based on current path
-    const isExactOverview = location.pathname.endsWith(`/student/project/${id}`) && path === '';
-    const isTabActive = location.pathname.includes(path) && path !== '';
-    return isExactOverview || isTabActive ? 'badge badge-primary' : 'badge badge-neutral';
+  const getStatusBadge = (status) => {
+    if (status === 'Pending') return 'badge-warning';
+    if (status === 'Delayed') return 'badge-danger';
+    return 'badge-info';
+  };
+
+  const getTabClass = (tabPath) => {
+    const isExactOverview = location.pathname.endsWith(`/student/project/${id}`) && tabPath === '';
+    const isSubTabActive = location.pathname.includes(tabPath) && tabPath !== '';
+    
+    if (isExactOverview || isSubTabActive) {
+      return 'badge badge-primary';
+    } else {
+      return 'badge badge-neutral';
+    }
   };
 
   return (
@@ -37,10 +48,11 @@ const ProjectDetail = ({
       <div className="flex justify-between items-center mb-4 pb-4" style={{ borderBottom: '1px solid var(--border-color)' }}>
         <div>
            <h2 className="text-2xl m-0">{activeProject.title}</h2>
-           <span className={`badge mt-2 ${activeProject.status === 'Pending' ? 'badge-warning' : 'badge-info'}`}>
+           <span className={`badge mt-2 ${getStatusBadge(activeProject.status)}`}>
              Status: {activeProject.status}
            </span>
         </div>
+        
         {activeProject.gitRepo && (
           <div>
             <a href={activeProject.gitRepo} target="_blank" rel="noreferrer" className="badge badge-neutral" style={{ padding: '0.5rem 1rem', textDecoration: 'none' }}>
@@ -50,7 +62,6 @@ const ProjectDetail = ({
         )}
       </div>
 
-      {/* Local Navigation Tabs */}
       <div className="flex gap-4 mb-8" style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
         <Link to={`/student/project/${id}`} className={getTabClass('')} style={{ textDecoration: 'none', padding: '0.5rem 1rem' }}>
           Overview
@@ -63,15 +74,15 @@ const ProjectDetail = ({
         </Link>
       </div>
 
-      {/* Sub-Routes */}
       <Routes>
         <Route path="/" element={
           <ProjectOverview 
             activeProject={activeProject} 
             projectTasks={projectTasks} 
-            progress={progress} 
+            progress={progressPercent} 
           />
         } />
+        
         <Route path="tasks" element={
           <ProjectTasks 
             currentUser={currentUser} 
@@ -82,6 +93,7 @@ const ProjectDetail = ({
             isTaskOverdue={isTaskOverdue} 
           />
         } />
+        
         <Route path="submissions" element={
           <ProjectSubmissions 
             activeProject={activeProject} 

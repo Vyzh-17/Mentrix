@@ -1,10 +1,34 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const MentorOverview = ({ currentUser, projects, setProjects, getProjectProgress }) => {
-  const mentoringProjects = projects.filter(p => p.mentor === currentUser.email);
-  const pendingRequests = mentoringProjects.filter(p => p.status === 'Pending');
-  const activeProjects = mentoringProjects.filter(p => p.status !== 'Pending');
+  const mentoringProjects = projects.filter(project => {
+     return project.mentor === currentUser.email;
+  });
+  
+  const pendingRequests = mentoringProjects.filter(project => {
+     return project.status === 'Pending';
+  });
+  
+  const activeProjects = mentoringProjects.filter(project => {
+     return project.status !== 'Pending';
+  });
+
+  const handleProjectRequest = (projectId, newStatus) => {
+    const updatedProjects = projects.map(proj => {
+      if (proj.id === projectId) {
+        return { ...proj, status: newStatus };
+      }
+      return proj;
+    });
+    setProjects(updatedProjects);
+  };
+
+  const getStatusColor = (status) => {
+    if (status === 'Delayed') {
+       return 'badge-danger';
+    } 
+    return 'badge-info';
+  };
 
   return (
     <div>
@@ -13,42 +37,58 @@ const MentorOverview = ({ currentUser, projects, setProjects, getProjectProgress
       {pendingRequests.length > 0 && (
         <div className="card" style={{ borderLeft: '4px solid var(--warning)' }}>
           <div className="card-title">Project Requests Requires Review</div>
-          {pendingRequests.map(p => (
-            <div key={p.id} className="flex justify-between items-center mb-4 pb-4" style={{ borderBottom: '1px solid var(--border-color)'}}>
+          
+          {pendingRequests.map(project => (
+            <div key={project.id} className="flex justify-between items-center mb-4 pb-4" style={{ borderBottom: '1px solid var(--border-color)'}}>
               <div>
-                <strong>{p.title}</strong>
-                <p className="text-sm text-muted">Students: {p.students.join(', ')}</p>
-                <p className="text-sm">{p.description}</p>
+                <strong>{project.title}</strong>
+                <p className="text-sm text-muted">Students: {project.students.join(', ')}</p>
+                <p className="text-sm">{project.description}</p>
               </div>
+              
               <div className="flex gap-2">
-                <button className="btn btn-primary" onClick={() => {
-                  setProjects(projects.map(proj => proj.id === p.id ? { ...proj, status: 'In Progress' } : proj));
-                }}>Accept</button>
-                <button className="btn btn-danger">Reject</button>
+                <button className="btn btn-primary" onClick={() => handleProjectRequest(project.id, 'In Progress')}>
+                  Accept
+                </button>
+                <button className="btn btn-danger" onClick={() => handleProjectRequest(project.id, 'Rejected')}>
+                  Reject
+                </button>
               </div>
             </div>
           ))}
         </div>
       )}
 
-      <div className="grid-3">
+      <div className="grid-3 mt-8">
         {activeProjects.map(project => {
-          const progress = getProjectProgress(project.id);
+          const progressPercent = getProjectProgress(project.id);
+          
           return (
             <div key={project.id} className="card">
               <div className="card-title">{project.title}</div>
-              <p className="text-sm text-muted mb-4">Team: {project.students.join(', ')}</p>
+              <p className="text-sm text-muted mb-4">
+                Team: {project.students.join(', ')}
+              </p>
+              
               <div className="progress-container mb-4">
-                <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+                <div className="progress-fill" style={{ width: `${progressPercent}%` }}></div>
               </div>
+              
               <div className="flex justify-between items-center">
-                <span className={`badge ${project.status === 'Delayed' ? 'badge-danger' : 'badge-info'}`}>{project.status}</span>
-                <span className="text-sm font-bold">{progress}% Complete</span>
+                <span className={`badge ${getStatusColor(project.status)}`}>
+                  {project.status}
+                </span>
+                <span className="text-sm font-bold">
+                  {progressPercent}% Complete
+                </span>
               </div>
             </div>
           );
         })}
-        {activeProjects.length === 0 && <p className="text-muted">No active projects yet.</p>}
+        
+        {activeProjects.length === 0 && (
+          <p className="text-muted">No active projects yet.</p>
+        )}
       </div>
     </div>
   );

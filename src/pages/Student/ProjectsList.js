@@ -3,12 +3,26 @@ import { useNavigate } from 'react-router-dom';
 
 const ProjectsList = ({ currentUser, projects, tasks, getProjectProgress }) => {
   const navigate = useNavigate();
-  const studentProjects = projects.filter(p => p.students.includes(currentUser.email));
+
+  const studentProjects = projects.filter(project => {
+     return project.students.includes(currentUser.email);
+  });
 
   const totalProjects = studentProjects.length;
-  // Calculate pending tasks for the current user
-  const userPendingTasks = tasks.filter(t => t.assignee === currentUser.email && t.status !== 'Completed').length;
-  const delayedProjects = studentProjects.filter(p => p.status === 'Delayed').length;
+  const userPendingTasks = tasks.filter(task => {
+    const isAssignedToMe = task.assignee === currentUser.email;
+    const isNotDone = task.status !== 'Completed';
+    return isAssignedToMe && isNotDone;
+  }).length;
+  
+  const delayedProjects = studentProjects.filter(project => project.status === 'Delayed').length;
+
+  const getStatusBadge = (status) => {
+    if (status === 'Delayed') return 'badge-danger'; 
+    if (status === 'Pending') return 'badge-warning'; 
+    if (status === 'Completed') return 'badge-success'; 
+    return 'badge-info'; 
+  };
 
   return (
     <div>
@@ -23,20 +37,25 @@ const ProjectsList = ({ currentUser, projects, tasks, getProjectProgress }) => {
              <div className="hero-stat-title">Total Projects</div>
              <div className="hero-stat-value">{totalProjects}</div>
            </div>
+           
            <div className="hero-stat-card">
              <div className="hero-stat-title">My Pending Tasks</div>
              <div className="hero-stat-value">{userPendingTasks}</div>
            </div>
+           
            <div className="hero-stat-card" style={delayedProjects > 0 ? { borderLeft: '4px solid #fca5a5' } : {}}>
              <div className="hero-stat-title">Projects Delayed</div>
-             <div className="hero-stat-value" style={delayedProjects > 0 ? { color: '#fca5a5' } : {}}>{delayedProjects}</div>
+             <div className="hero-stat-value" style={delayedProjects > 0 ? { color: '#fca5a5' } : {}}>
+                {delayedProjects}
+             </div>
            </div>
         </div>
       </div>
 
       <div className="grid-3 mt-4">
         {studentProjects.map(project => {
-          const progress = getProjectProgress(project.id);
+          const progressPercent = getProjectProgress(project.id);
+          
           return (
             <div 
               key={project.id} 
@@ -47,18 +66,22 @@ const ProjectsList = ({ currentUser, projects, tasks, getProjectProgress }) => {
               onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
               <div className="card-title">{project.title}</div>
-              <p className="text-sm text-muted mb-4">Status: <span className={`badge ${project.status === 'Pending' ? 'badge-warning' : 'badge-info'}`}>{project.status}</span></p>
+              <p className="text-sm text-muted mb-4">
+                Status: <span className={`badge ${getStatusBadge(project.status)}`}>{project.status}</span>
+              </p>
               
               <div className="progress-container">
-                <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+                <div className="progress-fill" style={{ width: `${progressPercent}%` }}></div>
               </div>
+              
               <div className="flex justify-between mt-2 text-sm">
                  <span className="text-muted">Phase: {project.milestone}</span>
-                 <span className="font-bold">{progress}% Complete</span>
+                 <span className="font-bold">{progressPercent}% Complete</span>
               </div>
             </div>
           );
         })}
+        
         {studentProjects.length === 0 && (
           <div className="card" style={{ gridColumn: '1 / -1', textAlign: 'center' }}>
             <p className="text-muted mb-4">You have no active projects.</p>
