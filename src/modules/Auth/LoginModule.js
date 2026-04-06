@@ -48,7 +48,7 @@ const LoginModule = ({ onLogin }) => {
           </div>
         </div>
 
-        <div className="text-center text-muted mb-4">--- OR CUSTOM LOGIN ---</div>
+        <div className="text-center text-muted mb-4"></div>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -62,11 +62,11 @@ const LoginModule = ({ onLogin }) => {
           <div className="grid-2">
             <div className="form-group">
               <label>Full Name</label>
-              <input type="text" name="name" className="form-control" placeholder="e.g. Alice Johnson" required />
+              <input type="text" name="name" className="form-control" placeholder="e.g. Rohan Sharma" required />
             </div>
             <div className="form-group">
               <label>Institutional Email</label>
-              <input type="email" name="email" className="form-control" placeholder="e.g. alice@uni.edu" required />
+              <input type="email" name="email" className="form-control" placeholder="e.g. rohan@uni.edu" required />
             </div>
           </div>
           <div className="form-group">
