@@ -162,6 +162,18 @@ function App() {
                     setSubmissions={setSubmissions}
                   />
                 } />
+                <Route path="/mentor/project/:id/*" element={
+                  <ProjectDetail 
+                    currentUser={currentUser} 
+                    projects={projects} 
+                    tasks={tasks}
+                    setTasks={setTasks}
+                    submissions={submissions}
+                    setSubmissions={setSubmissions}
+                    getProjectProgress={getProjectProgress}
+                    isTaskOverdue={isTaskOverdue}
+                  />
+                } />
                 <Route path="*" element={<Navigate to="/mentor" replace />} />
               </>
             )}

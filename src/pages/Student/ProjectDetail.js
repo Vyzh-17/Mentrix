@@ -28,8 +28,10 @@ const ProjectDetail = ({
     return 'badge-info';
   };
 
+  const basePath = `/${currentUser.role}`;
+
   const getTabClass = (tabPath) => {
-    const isExactOverview = location.pathname.endsWith(`/student/project/${id}`) && tabPath === '';
+    const isExactOverview = location.pathname.endsWith(`${basePath}/project/${id}`) && tabPath === '';
     const isSubTabActive = location.pathname.includes(tabPath) && tabPath !== '';
     
     if (isExactOverview || isSubTabActive) {
@@ -42,7 +44,7 @@ const ProjectDetail = ({
   return (
     <div>
       <div className="flex items-center gap-4 mb-4">
-        <button className="btn btn-outline" onClick={() => navigate('/student')}>← Back to Projects</button>
+        <button className="btn btn-outline" onClick={() => navigate(basePath)}>← Back to Dashboard</button>
       </div>
 
       <div className="flex justify-between items-center mb-4 pb-4" style={{ borderBottom: '1px solid var(--border-color)' }}>
@@ -63,13 +65,13 @@ const ProjectDetail = ({
       </div>
 
       <div className="flex gap-4 mb-8" style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
-        <Link to={`/student/project/${id}`} className={getTabClass('')} style={{ textDecoration: 'none', padding: '0.5rem 1rem' }}>
+        <Link to={`${basePath}/project/${id}`} className={getTabClass('')} style={{ textDecoration: 'none', padding: '0.5rem 1rem' }}>
           Overview
         </Link>
-        <Link to={`/student/project/${id}/tasks`} className={getTabClass('tasks')} style={{ textDecoration: 'none', padding: '0.5rem 1rem' }}>
+        <Link to={`${basePath}/project/${id}/tasks`} className={getTabClass('tasks')} style={{ textDecoration: 'none', padding: '0.5rem 1rem' }}>
           Tasks
         </Link>
-        <Link to={`/student/project/${id}/submissions`} className={getTabClass('submissions')} style={{ textDecoration: 'none', padding: '0.5rem 1rem' }}>
+        <Link to={`${basePath}/project/${id}/submissions`} className={getTabClass('submissions')} style={{ textDecoration: 'none', padding: '0.5rem 1rem' }}>
           Submissions
         </Link>
       </div>
@@ -96,6 +98,7 @@ const ProjectDetail = ({
         
         <Route path="submissions" element={
           <ProjectSubmissions 
+            currentUser={currentUser}
             activeProject={activeProject} 
             submissions={submissions} 
             setSubmissions={setSubmissions} 

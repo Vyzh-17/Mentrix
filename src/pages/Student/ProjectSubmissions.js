@@ -1,19 +1,21 @@
 import React from 'react';
 import { IconFolder } from '../../components/Icons';
 
-const ProjectSubmissions = ({ activeProject, submissions, setSubmissions, mySubmissions }) => {
+const ProjectSubmissions = ({ currentUser, activeProject, submissions, setSubmissions, mySubmissions }) => {
   return (
     <div>
-      <div className="submission-area" onClick={() => {
-        const fileName = prompt("Enter file name to simulate upload (e.g., Final_Report.pdf):");
-        if (fileName) {
-          setSubmissions([...submissions, { id: submissions.length + 1, projectId: activeProject.id, filename: fileName, phase: activeProject.milestone, date: '2023-11-01', status: 'Pending Review' }]);
-        }
-      }}>
-        <IconFolder />
-        <h3>Click to Simulate File Upload</h3>
-        <p className="text-sm mt-4">Upload Reports, PPTs, or Documents</p>
-      </div>
+      {currentUser.role === 'student' && (
+        <div className="submission-area" onClick={() => {
+          const fileName = prompt("Enter file name to simulate upload (e.g., Final_Report.pdf):");
+          if (fileName) {
+            setSubmissions([...submissions, { id: submissions.length + 1, projectId: activeProject.id, filename: fileName, phase: activeProject.milestone, date: '2023-11-01', status: 'Pending Review' }]);
+          }
+        }}>
+          <IconFolder />
+          <h3>Click to Simulate File Upload</h3>
+          <p className="text-sm mt-4">Upload Reports, PPTs, or Documents</p>
+        </div>
+      )}
       <div className="card mt-8">
         <div className="card-title">Previous Submissions</div>
         <table>
