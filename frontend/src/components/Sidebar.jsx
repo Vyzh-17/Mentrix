@@ -40,7 +40,7 @@ const Sidebar = () => {
         ))}
       </nav>
 
-      {/* User footer */}
+      
       <div className="sidebar-user">
         <div className="user-card">
           <div className="user-avatar">{initials}</div>

@@ -62,7 +62,7 @@ const Discussion = ({ type, id, comments, user, onCommentAdded }) => {
         )}
       </div>
 
-      {/* Input */}
+      
       <form onSubmit={handleSubmit}>
         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-end' }}>
           <div className="comment-avatar" style={{ marginBottom: '2px', flexShrink: 0 }}>

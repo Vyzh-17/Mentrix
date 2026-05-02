@@ -14,8 +14,8 @@ const MentorView = () => {
             const projRes = await axios.get('/api/projects', config);
             setProjects(projRes.data);
             
-            // In a real app, you'd fetch updates related to these projects
-            // For now, let's assume we fetch all updates for simplicity
+            
+            
             const updateRes = await axios.get('/api/updates', config);
             setUpdates(updateRes.data);
         } catch (error) {

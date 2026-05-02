@@ -46,7 +46,7 @@ const Signup = () => {
         <h1 className="auth-title">Create account</h1>
         <p className="auth-subtitle">Join the Mentrix platform today</p>
 
-        {/* Role Tabs - Simplified buttons for maximum robustness */}
+        
         <div className="role-tabs">
           {ROLES.map(r => (
             <button
@@ -61,7 +61,7 @@ const Signup = () => {
           ))}
         </div>
 
-        {/* Error Banner */}
+        
         {error && (
           <div style={{
             background: '#fee2e2',

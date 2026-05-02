@@ -1,9 +1,9 @@
 const Project = require('../models/Project');
 const Task = require('../models/Task');
 
-// @desc    Create a new project (Coordinator only)
-// @route   POST /api/projects
-// @access  Private/Coordinator
+
+
+
 const createProject = async (req, res) => {
     const { title, description, mentor, students, deadline } = req.body;
 
@@ -29,22 +29,22 @@ const createProject = async (req, res) => {
     }
 };
 
-// @desc    Get all projects
-// @route   GET /api/projects
-// @access  Private
+
+
+
 const getProjects = async (req, res) => {
     try {
-        let query = {};
+        let query = ;
         
-        // If student, only show their projects
+        
         if (req.user.role === 'student') {
             query.students = req.user._id;
         }
-        // If mentor, only show projects they mentor
+        
         else if (req.user.role === 'mentor') {
             query.mentor = req.user._id;
         }
-        // Coordinator sees projects in their section
+        
         else if (req.user.role === 'coordinator' && req.user.section) {
             query.section = req.user.section;
         }
@@ -53,7 +53,7 @@ const getProjects = async (req, res) => {
             .populate('mentor', 'name email')
             .populate('students', 'name email');
             
-        // Calculate completion level for each project
+        
         const projects = await Promise.all(projectsRaw.map(async (p) => {
             const tasks = await Task.find({ project: p._id });
             const doneCount = tasks.filter(t => t.status === 'done').length;
@@ -67,9 +67,9 @@ const getProjects = async (req, res) => {
     }
 };
 
-// @desc    Get project by ID
-// @route   GET /api/projects/:id
-// @access  Private
+
+
+
 const getProjectById = async (req, res) => {
     try {
         const project = await Project.findById(req.params.id)
@@ -83,9 +83,9 @@ const getProjectById = async (req, res) => {
     }
 };
 
-// @desc    Add comment to project
-// @route   POST /api/projects/:id/comment
-// @access  Private
+
+
+
 const addProjectComment = async (req, res) => {
     const { text } = req.body;
     try {
@@ -107,9 +107,9 @@ const addProjectComment = async (req, res) => {
     }
 };
 
-// @desc    Update project status
-// @route   PUT /api/projects/:id/status
-// @access  Private (Coordinator or Mentor)
+
+
+
 const updateProjectStatus = async (req, res) => {
     const { status } = req.body;
     try {
@@ -124,9 +124,9 @@ const updateProjectStatus = async (req, res) => {
     }
 };
 
-// @desc    Update project details
-// @route   PUT /api/projects/:id
-// @access  Private/Coordinator
+
+
+
 const updateProject = async (req, res) => {
     const { title, description, mentor, students, status, deadline } = req.body;
     try {
@@ -147,9 +147,9 @@ const updateProject = async (req, res) => {
     }
 };
 
-// @desc    Add reply to project comment
-// @route   POST /api/projects/:id/comment/:commentId/reply
-// @access  Private
+
+
+
 const addProjectReply = async (req, res) => {
     const { text } = req.body;
     try {
@@ -174,9 +174,9 @@ const addProjectReply = async (req, res) => {
     }
 };
 
-// @desc    Update project phase
-// @route   PUT /api/projects/:id/phase
-// @access  Private (Coordinator or Mentor)
+
+
+
 const updateProjectPhase = async (req, res) => {
     const { phase } = req.body;
     try {
@@ -185,17 +185,17 @@ const updateProjectPhase = async (req, res) => {
             return res.status(404).json({ message: 'Project not found' });
         }
         
-        // Ensure user is authorized
+        
         if (req.user.role === 'student') {
             return res.status(401).json({ message: 'Not authorized to change project phase' });
         }
 
         project.phase = phase;
-        // Optionally update status if Completed
+        
         if (phase === 'Completed') {
             project.status = 'completed';
         } else {
-            project.status = 'active'; // Reset if moved backwards
+            project.status = 'active'; 
         }
 
         project.activities.push({

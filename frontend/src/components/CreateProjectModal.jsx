@@ -22,10 +22,10 @@ const CreateProjectModal = ({ user, onClose, onCreated }) => {
         const mentorsRes = await axios.get('/api/auth/users?role=mentor', config);
         setMentors(mentorsRes.data || []);
         
-        // Fetch section teammates
+        
         if (user.section && user.year) {
             const teamRes = await axios.get(`/api/auth/users?role=student&section=${user.section}&year=${user.year}`, config);
-            // Filter out the current user
+            
             setTeammates(teamRes.data.filter(u => u._id !== user._id) || []);
         }
       } catch (err) {

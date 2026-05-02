@@ -4,7 +4,7 @@ import ProgressBar from './ProgressBar';
 const ProjectCard = ({ project, onClick }) => {
   const { title, description, status, progress, deadline } = project;
   
-  // Logic: At-Risk Detection
+  
   const isAtRisk = () => {
     if (status === 'completed') return false;
     
@@ -12,7 +12,7 @@ const ProjectCard = ({ project, onClick }) => {
     const due = new Date(deadline);
     const diffDays = Math.ceil((due - now) / (1000 * 60 * 60 * 24));
     
-    // Near deadline (7 days) and low progress (< 50%)
+    
     return (diffDays <= 7 && progress < 50);
   };
 

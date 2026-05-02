@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TaskList = ({ tasks, currentUserId }) => {
-  // Logic: Contribution Calculation
+  
   const calculateContribution = () => {
     if (!tasks || tasks.length === 0) return 0;
     const userCompletedTasks = tasks.filter(t => t.assignedTo?._id === currentUserId && t.status === 'completed').length;

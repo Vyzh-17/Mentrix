@@ -34,7 +34,7 @@ const MentorDashboard = ({ user }) => {
     let feedback = '';
     if (status === 'rejected') {
       feedback = window.prompt("Please provide feedback for what needs correction:");
-      if (feedback === null) return; // cancelled
+      if (feedback === null) return; 
     } else {
       feedback = window.prompt("Optional feedback (or leave blank):") || '';
     }

@@ -27,11 +27,11 @@ const CoordinatorDashboard = ({ user }) => {
 
   if (loading) return <div className="loading-screen"><div className="spinner" /><span>Analyzing data...</span></div>;
 
-  // Logic: Analytics
+  
   const completed = projects.filter(p => p.status === 'completed').length;
   const active    = projects.filter(p => p.status === 'active').length;
   
-  // At Risk Logic
+  
   const atRiskProjects = projects.filter(p => {
     if (p.status === 'completed') return false;
     const now = new Date();
@@ -74,7 +74,7 @@ const CoordinatorDashboard = ({ user }) => {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem', marginBottom: '2.5rem' }}>
-        {/* Project Table */}
+        
         <div className="glass-card">
           <div className="section-header">
             <h3 className="section-title">All Projects</h3>
@@ -129,7 +129,7 @@ const CoordinatorDashboard = ({ user }) => {
           </div>
         </div>
 
-        {/* Simple Chart / Progress Distribution */}
+        
         <div className="glass-card">
           <h3 className="section-title" style={{ marginBottom: '1.5rem' }}>Progress Distribution</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>

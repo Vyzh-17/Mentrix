@@ -29,7 +29,7 @@ const Timeline = ({ activities }) => {
         <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '1rem' }}>No activities recorded yet.</p>
       ) : (
         <div style={{ position: 'relative', paddingLeft: '2rem' }}>
-          {/* Vertical Line */}
+          
           <div style={{ 
             position: 'absolute', 
             left: '7px', 
@@ -42,7 +42,7 @@ const Timeline = ({ activities }) => {
 
           {activities.map((activity, index) => (
             <div key={index} style={{ position: 'relative', marginBottom: '1.5rem' }}>
-              {/* Dot */}
+              
               <div style={{ 
                 position: 'absolute', 
                 left: '-2rem', 

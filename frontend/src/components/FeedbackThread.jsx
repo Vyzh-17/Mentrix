@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const FeedbackThread = ({ projectId, comments, user, onCommentAdded }) => {
   const [newComment, setNewComment] = useState('');
-  const [replyText, setReplyText] = useState({});
+  const [replyText, setReplyText] = useState();
   const [activeReplyId, setActiveReplyId] = useState(null);
 
   const handleSubmitComment = async (e) => {
@@ -36,7 +36,7 @@ const FeedbackThread = ({ projectId, comments, user, onCommentAdded }) => {
     <div className="glass-card">
       <h3 className="section-title" style={{ marginBottom: '1.5rem' }}>Discussion Thread</h3>
       
-      {/* New Comment Input */}
+      
       <form onSubmit={handleSubmitComment} style={{ marginBottom: '2rem' }}>
         <textarea
           className="form-input"
@@ -48,7 +48,7 @@ const FeedbackThread = ({ projectId, comments, user, onCommentAdded }) => {
         <button type="submit" className="btn-primary" style={{ width: 'auto' }}>Post Comment</button>
       </form>
 
-      {/* Comment List */}
+      
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         {(comments || []).map((comment) => (
           <div key={comment._id} className="comment-item" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '1.5rem' }}>
@@ -69,7 +69,7 @@ const FeedbackThread = ({ projectId, comments, user, onCommentAdded }) => {
                   Reply
                 </button>
 
-                {/* Replies */}
+                
                 {(comment.replies || []).length > 0 && (
                   <div style={{ marginTop: '1rem', paddingLeft: '1rem', borderLeft: '2px solid var(--primary-bg2)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     {comment.replies.map((reply) => (
@@ -87,7 +87,7 @@ const FeedbackThread = ({ projectId, comments, user, onCommentAdded }) => {
                   </div>
                 )}
 
-                {/* Reply Input */}
+                
                 {activeReplyId === comment._id && (
                   <div style={{ marginTop: '1rem' }}>
                     <textarea

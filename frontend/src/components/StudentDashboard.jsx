@@ -36,7 +36,7 @@ const StudentDashboard = ({ user }) => {
 
   if (loading) return <div className="loading-screen"><div className="spinner" /><span>Loading your space...</span></div>;
 
-  // Simple overall progress calculation for all projects
+  
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter(t => t.status === 'completed').length;
   const overallProgress = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
@@ -66,7 +66,7 @@ const StudentDashboard = ({ user }) => {
         </div>
       </div>
 
-      {/* Tabs */}
+      
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
         <button 
           className={`btn-ghost ${activeTab === 'overview' ? 'active' : ''}`} 
@@ -98,7 +98,7 @@ const StudentDashboard = ({ user }) => {
                 key={p._id} 
                 project={{
                   ...p,
-                  progress: p.progress || 0 // Use existing progress calculation
+                  progress: p.progress || 0 
                 }} 
                 onClick={() => navigate(`/project/${p._id}`)}
               />

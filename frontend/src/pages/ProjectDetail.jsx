@@ -21,7 +21,7 @@ const ProjectDetail = () => {
   const navigate = useNavigate();
 
   const fetchProjectDetails = async () => {
-    if (!user) return; // Wait for user to be populated
+    if (!user) return; 
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
       const [projRes, taskRes, updateRes] = await Promise.all([
@@ -74,7 +74,7 @@ const ProjectDetail = () => {
 
   const projectProgress = tasks.length > 0 ? Math.round((tasks.filter(t => t.status === 'completed').length / tasks.length) * 100) : 0;
 
-  // Logic: At-Risk Detection
+  
   const isAtRisk = () => {
     if (project.status === 'completed') return false;
     const now = new Date();
@@ -123,9 +123,9 @@ const ProjectDetail = () => {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '2rem', alignItems: 'start' }}>
-          {/* Left Column */}
+          
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            {/* Overview */}
+            
             <div className="glass-card">
               <h3 className="section-title" style={{ marginBottom: '1rem' }}>Project Overview</h3>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.8', fontSize: '1rem' }}>
@@ -133,7 +133,7 @@ const ProjectDetail = () => {
               </p>
             </div>
 
-            {/* Task Management */}
+            
             <div className="glass-card">
               <div className="section-header">
                 <h3 className="section-title">Task & Contribution Tracking</h3>
@@ -188,7 +188,7 @@ const ProjectDetail = () => {
               </div>
             </div>
 
-            {/* Submissions Section */}
+            
             <div className="glass-card">
               <div className="section-header">
                 <h3 className="section-title">Project Submissions</h3>
@@ -229,7 +229,7 @@ const ProjectDetail = () => {
               </div>
             </div>
 
-            {/* Feedback Thread */}
+            
             <FeedbackThread 
               projectId={project._id} 
               comments={project.comments} 
@@ -238,9 +238,9 @@ const ProjectDetail = () => {
             />
           </div>
 
-          {/* Right Column */}
+          
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            {/* Progress Card */}
+            
             <div className="glass-card" style={{ borderLeft: `4px solid ${isAtRisk() ? 'var(--danger)' : 'var(--primary)'}` }}>
               <h3 className="section-title" style={{ marginBottom: '1.25rem' }}>Current Progress</h3>
               <ProgressBar progress={projectProgress} height="12px" />
@@ -256,10 +256,10 @@ const ProjectDetail = () => {
               </div>
             </div>
 
-            {/* Timeline */}
+            
             <Timeline activities={project.activities || []} />
 
-            {/* Team Members */}
+            
             <div className="glass-card">
               <h3 className="section-title" style={{ marginBottom: '1.25rem' }}>Project Team</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

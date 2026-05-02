@@ -1,8 +1,8 @@
 const Update = require('../models/Update');
 
-// @desc    Submit a weekly update
-// @route   POST /api/updates
-// @access  Private (Student)
+
+
+
 const submitUpdate = async (req, res) => {
     const { project, task, description, fileLinks } = req.body;
 
@@ -10,7 +10,7 @@ const submitUpdate = async (req, res) => {
         const update = await Update.create({
             project,
             task,
-            student: req.user._id, // Gotten from auth middleware
+            student: req.user._id, 
             description,
             fileLinks
         });
@@ -21,9 +21,9 @@ const submitUpdate = async (req, res) => {
     }
 };
 
-// @desc    Provide feedback on an update
-// @route   PUT /api/updates/:id/feedback
-// @access  Private (Mentor)
+
+
+
 const addFeedback = async (req, res) => {
     const { status, feedback } = req.body;
 
@@ -44,9 +44,9 @@ const addFeedback = async (req, res) => {
     }
 };
 
-// @desc    Add comment to update (report)
-// @route   POST /api/updates/:id/comment
-// @access  Private
+
+
+
 const addUpdateComment = async (req, res) => {
     const { text } = req.body;
     try {
@@ -68,18 +68,18 @@ const addUpdateComment = async (req, res) => {
     }
 };
 
-// @desc    Get all updates
-// @route   GET /api/updates
-// @access  Private
+
+
+
 const getUpdates = async (req, res) => {
     try {
-        let query = {};
+        let query = ;
         
         if (req.query.projectId) {
             query.project = req.query.projectId;
         } else {
             if (req.user.role === 'student') {
-                // Should technically be projects they are a part of, but for now:
+                
                 const Project = require('../models/Project');
                 const myProjects = await Project.find({ students: req.user._id }).select('_id');
                 query.project = { $in: myProjects.map(p => p._id) };
@@ -100,23 +100,23 @@ const getUpdates = async (req, res) => {
     }
 };
 
-// @desc    Edit/Correct a submission
-// @route   PUT /api/updates/:id
-// @access  Private (Student)
+
+
+
 const editUpdate = async (req, res) => {
     const { description, fileLinks } = req.body;
     try {
         const update = await Update.findById(req.params.id);
         if (!update) return res.status(404).json({ message: 'Update not found' });
 
-        // Only owner can edit
+        
         if (update.student.toString() !== req.user._id.toString()) {
             return res.status(401).json({ message: 'Not authorized' });
         }
 
         update.description = description || update.description;
         update.fileLinks = fileLinks || update.fileLinks;
-        update.status = 'submitted'; // Reset status for re-review
+        update.status = 'submitted'; 
 
         const updated = await update.save();
         res.json(updated);
