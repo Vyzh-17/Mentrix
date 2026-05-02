@@ -18,8 +18,8 @@ const StudentDashboard = ({ user }) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
       const [projRes, taskRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/projects', config),
-        axios.get('http://localhost:5000/api/tasks/my-tasks', config)
+        axios.get('/api/projects', config),
+        axios.get('/api/tasks/my-tasks', config)
       ]);
       setProjects(projRes.data || []);
       setTasks(taskRes.data || []);

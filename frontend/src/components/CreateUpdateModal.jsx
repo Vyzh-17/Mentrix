@@ -31,7 +31,7 @@ const CreateUpdateModal = ({ project, tasks, user, onClose, onCreated }) => {
       };
       if (selectedTask) payload.task = selectedTask;
 
-      await axios.post('http://localhost:5000/api/updates', payload, config);
+      await axios.post('/api/updates', payload, config);
       onCreated();
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to submit update.');

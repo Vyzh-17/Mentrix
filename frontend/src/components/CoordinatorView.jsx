@@ -15,8 +15,8 @@ const CoordinatorView = () => {
     const fetchData = async () => {
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            const projRes = await axios.get('http://localhost:5000/api/projects', config);
-            const userRes = await axios.get('http://localhost:5000/api/auth/users', config);
+            const projRes = await axios.get('/api/projects', config);
+            const userRes = await axios.get('/api/auth/users', config);
             setProjects(projRes.data);
             setUsers(userRes.data);
         } catch (error) {
@@ -32,7 +32,7 @@ const CoordinatorView = () => {
         e.preventDefault();
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.post('http://localhost:5000/api/projects', {
+            await axios.post('/api/projects', {
                 title,
                 description,
                 mentor: mentorId,

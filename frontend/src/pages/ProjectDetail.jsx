@@ -25,9 +25,9 @@ const ProjectDetail = () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
       const [projRes, taskRes, updateRes] = await Promise.all([
-        axios.get(`http://localhost:5000/api/projects/${id}`, config),
-        axios.get(`http://localhost:5000/api/tasks/${id}`, config),
-        axios.get(`http://localhost:5000/api/updates?projectId=${id}`, config),
+        axios.get(`/api/projects/${id}`, config),
+        axios.get(`/api/tasks/${id}`, config),
+        axios.get(`/api/updates?projectId=${id}`, config),
       ]);
       setProject(projRes.data);
       setTasks(taskRes.data);
@@ -42,7 +42,7 @@ const ProjectDetail = () => {
   const handleTaskStatusChange = async (taskId, newStatus) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`http://localhost:5000/api/tasks/${taskId}/status`, { status: newStatus }, config);
+      await axios.put(`/api/tasks/${taskId}/status`, { status: newStatus }, config);
       fetchProjectDetails();
     } catch (err) {
       console.error('Failed to update task status', err);
@@ -53,7 +53,7 @@ const ProjectDetail = () => {
   const handlePhaseChange = async (newPhase) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`http://localhost:5000/api/projects/${id}/phase`, { phase: newPhase }, config);
+      await axios.put(`/api/projects/${id}/phase`, { phase: newPhase }, config);
       fetchProjectDetails();
     } catch (err) {
       console.error('Failed to update phase', err);

@@ -13,10 +13,10 @@ const StudentView = () => {
     const fetchData = async () => {
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            const projRes = await axios.get('http://localhost:5000/api/projects', config);
+            const projRes = await axios.get('/api/projects', config);
             setProjects(projRes.data);
             
-            const updateRes = await axios.get('http://localhost:5000/api/updates', config);
+            const updateRes = await axios.get('/api/updates', config);
             setUpdates(updateRes.data.filter(u => u.student?._id === user._id || u.student === user._id));
         } catch (error) {
             console.error(error);
@@ -31,7 +31,7 @@ const StudentView = () => {
         e.preventDefault();
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.post('http://localhost:5000/api/updates', {
+            await axios.post('/api/updates', {
                 project: selectedProject,
                 description: updateDesc,
                 fileLinks: []

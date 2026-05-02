@@ -27,7 +27,7 @@ const Signup = () => {
     setError('');
     setLoading(true);
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/register', {
+      const { data } = await axios.post('/api/auth/register', {
         name, email, password, role, section, year
       });
       login(data);

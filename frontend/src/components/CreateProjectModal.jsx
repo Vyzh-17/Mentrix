@@ -19,12 +19,12 @@ const CreateProjectModal = ({ user, onClose, onCreated }) => {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
         // Fetch mentors
-        const mentorsRes = await axios.get('http://localhost:5000/api/auth/users?role=mentor', config);
+        const mentorsRes = await axios.get('/api/auth/users?role=mentor', config);
         setMentors(mentorsRes.data || []);
         
         // Fetch section teammates
         if (user.section && user.year) {
-            const teamRes = await axios.get(`http://localhost:5000/api/auth/users?role=student&section=${user.section}&year=${user.year}`, config);
+            const teamRes = await axios.get(`/api/auth/users?role=student&section=${user.section}&year=${user.year}`, config);
             // Filter out the current user
             setTeammates(teamRes.data.filter(u => u._id !== user._id) || []);
         }
@@ -48,7 +48,7 @@ const CreateProjectModal = ({ user, onClose, onCreated }) => {
     setError('');
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.post('http://localhost:5000/api/projects', {
+      await axios.post('/api/projects', {
         title,
         description,
         mentor: mentorId,

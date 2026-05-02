@@ -11,7 +11,7 @@ const Discussion = ({ type, id, comments, user, onCommentAdded }) => {
     setLoading(true);
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.post(`http://localhost:5000/api/${type}/${id}/comment`, { text }, config);
+      const { data } = await axios.post(`/api/${type}/${id}/comment`, { text }, config);
       setText('');
       onCommentAdded(data);
     } catch {

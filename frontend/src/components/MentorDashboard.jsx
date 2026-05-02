@@ -14,8 +14,8 @@ const MentorDashboard = ({ user }) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
       const [projRes, updateRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/projects', config),
-        axios.get('http://localhost:5000/api/updates', config),
+        axios.get('/api/projects', config),
+        axios.get('/api/updates', config),
       ]);
       setProjects(projRes.data || []);
       setUpdates(updateRes.data || []);
@@ -41,7 +41,7 @@ const MentorDashboard = ({ user }) => {
 
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`http://localhost:5000/api/updates/${updateId}/feedback`, { status, feedback }, config);
+      await axios.put(`/api/updates/${updateId}/feedback`, { status, feedback }, config);
       fetchData(); // Refresh list
     } catch (err) {
       console.error('Failed to submit feedback', err);

@@ -24,10 +24,21 @@ app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/tasks', require('./routes/taskRoutes'));
 app.use('/api/updates', require('./routes/updateRoutes'));
 
-// Basic test route to check if server is running
-app.get('/', (req, res) => {
-    res.send('API is running...');
-});
+const path = require('path');
+
+// Serve frontend in production
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
+    });
+} else {
+    // Basic test route to check if server is running
+    app.get('/', (req, res) => {
+        res.send('API is running...');
+    });
+}
 
 // Define the port for the server to listen on, defaulting to 5000
 const PORT = process.env.PORT || 5000;

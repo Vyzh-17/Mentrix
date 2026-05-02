@@ -22,7 +22,7 @@ const CreateTaskModal = ({ project, user, onClose, onCreated }) => {
     
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.post('http://localhost:5000/api/tasks', {
+      await axios.post('/api/tasks', {
         project: project._id,
         title,
         description,

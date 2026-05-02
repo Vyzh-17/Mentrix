@@ -11,12 +11,12 @@ const MentorView = () => {
     const fetchData = async () => {
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            const projRes = await axios.get('http://localhost:5000/api/projects', config);
+            const projRes = await axios.get('/api/projects', config);
             setProjects(projRes.data);
             
             // In a real app, you'd fetch updates related to these projects
             // For now, let's assume we fetch all updates for simplicity
-            const updateRes = await axios.get('http://localhost:5000/api/updates', config);
+            const updateRes = await axios.get('/api/updates', config);
             setUpdates(updateRes.data);
         } catch (error) {
             console.error(error);
@@ -30,7 +30,7 @@ const MentorView = () => {
     const handleStatusUpdate = async (projectId, newStatus) => {
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.put(`http://localhost:5000/api/projects/${projectId}/status`, { status: newStatus }, config);
+            await axios.put(`/api/projects/${projectId}/status`, { status: newStatus }, config);
             fetchData();
         } catch (error) {
             alert('Failed to update status');

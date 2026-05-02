@@ -11,7 +11,7 @@ const FeedbackThread = ({ projectId, comments, user, onCommentAdded }) => {
     if (!newComment.trim()) return;
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.post(`http://localhost:5000/api/projects/${projectId}/comment`, { text: newComment }, config);
+      const { data } = await axios.post(`/api/projects/${projectId}/comment`, { text: newComment }, config);
       setNewComment('');
       onCommentAdded(data);
     } catch (err) {
@@ -23,7 +23,7 @@ const FeedbackThread = ({ projectId, comments, user, onCommentAdded }) => {
     if (!replyText[commentId]?.trim()) return;
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.post(`http://localhost:5000/api/projects/${projectId}/comment/${commentId}/reply`, { text: replyText[commentId] }, config);
+      const { data } = await axios.post(`/api/projects/${projectId}/comment/${commentId}/reply`, { text: replyText[commentId] }, config);
       setReplyText(prev => ({ ...prev, [commentId]: '' }));
       setActiveReplyId(null);
       onCommentAdded(data);

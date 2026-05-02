@@ -14,7 +14,7 @@ const CoordinatorDashboard = ({ user }) => {
     const fetchProjects = async () => {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        const { data } = await axios.get('http://localhost:5000/api/projects', config);
+        const { data } = await axios.get('/api/projects', config);
         setProjects(data || []);
       } catch (err) {
         console.error(err);
