@@ -44,7 +44,7 @@ const Signup = () => {
       <div className="auth-card animate-in">
         <div className="auth-logo">✨</div>
         <h1 className="auth-title">Create account</h1>
-        <p className="auth-subtitle">Join the P‑Track platform today</p>
+        <p className="auth-subtitle">Join the Mentrix platform today</p>
 
         {/* Role Tabs - Simplified buttons for maximum robustness */}
         <div className="role-tabs">

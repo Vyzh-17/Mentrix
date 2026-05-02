@@ -22,7 +22,7 @@ const Sidebar = () => {
       {/* Logo */}
       <div className="sidebar-logo">
         <div className="sidebar-logo-icon">🚀</div>
-        <span className="sidebar-logo-text">P‑Track</span>
+        <span className="sidebar-logo-text">Mentrix</span>
       </div>
 
       {/* Nav */}

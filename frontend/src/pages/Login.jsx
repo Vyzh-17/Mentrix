@@ -43,7 +43,7 @@ const Login = () => {
       <div className="auth-card animate-in">
         <div className="auth-logo">🚀</div>
         <h1 className="auth-title">Welcome back</h1>
-        <p className="auth-subtitle">Sign in to your P‑Track account</p>
+        <p className="auth-subtitle">Sign in to your Mentrix account</p>
 
         {/* Role Tabs - Simplified buttons for maximum robustness */}
         <div className="role-tabs">
